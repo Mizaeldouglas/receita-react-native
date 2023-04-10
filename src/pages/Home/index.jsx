@@ -12,10 +12,15 @@ import {
 import { FoodList } from "../../components/FoodList";
 import { Logo } from "../../components/Logo";
 import api from "../../services/api";
+import { useNavigation } from "@react-navigation/native";
+
+import { Text as MotiText } from "moti";
 
 export default function Home() {
   const [inputValue, setInputValue] = useState("");
   const [foods, setFoods] = useState([]);
+
+  const navigation = useNavigation();
 
   useEffect(() => {
     async function fecthApi() {
@@ -26,15 +31,53 @@ export default function Home() {
   }, []);
 
   function handleSearch() {
-    console.log("você digitou ");
-    console.log(inputValue);
+    if (!inputValue) {
+      return;
+    }
+    let input = inputValue;
+    setInputValue("");
+    navigation.navigate("Search", { name: input });
   }
 
   return (
     <SafeAreaView style={styles.container}>
       <Logo />
-      <Text style={styles.title}>Encontre a receita</Text>
-      <Text style={styles.title}>que combina com você</Text>
+      <MotiText
+        from={{
+          opacity: 0,
+          translateY: 15,
+        }}
+        animate={{
+          opacity: 1,
+          translateY: 0,
+        }}
+        transition={{
+          delay: 100,
+          type: "timing",
+          duration: 650,
+        }}
+        style={styles.title}
+      >
+        Encontre a receita
+      </MotiText>
+      <MotiText
+        from={{
+          opacity: 0,
+          translateY: 18,
+        }}
+        animate={{
+          opacity: 1,
+          translateY: 0,
+        }}
+        transition={{
+          delay: 200,
+          type: "timing",
+          duration: 850,
+        }}
+        style={styles.title}
+      >
+        que combina com você
+      </MotiText>
       <View style={styles.form}>
         <TextInput
           style={styles.input}
